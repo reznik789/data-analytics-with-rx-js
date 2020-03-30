@@ -1,6 +1,6 @@
 import React from "react";
 import { render, waitForDomChange } from "@testing-library/react";
-import App from './App';
+import App from "./App";
 
 describe("App component", () => {
   test("render N/A on initialization, and value after getting data", async () => {
@@ -15,8 +15,10 @@ describe("App component", () => {
     await waitForDomChange(pressSpan);
     await waitForDomChange(humSpan);
     rerender();
-    expect(tempSpan.textContent).toBe("22");
-    expect(pressSpan.textContent).toBe("1000");
-    expect(humSpan.textContent).toBe("45"); 
+    const isNumberStringOrDefault = val =>
+      /^[0-9]*$/.test(val) || val === "N/A";
+    expect(tempSpan.textContent).toSatisfy(isNumberStringOrDefault);
+    expect(pressSpan.textContent).toSatisfy(isNumberStringOrDefault);
+    expect(humSpan.textContent).toSatisfy(isNumberStringOrDefault);
   });
 });
